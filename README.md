@@ -5,7 +5,7 @@ A collection of a few personal projects and school assignments to showcase my pr
 ## Snake AI (Personal Project 2016)
 Written in Processing which is a high-level language built on-top of Java. It tries to teach a neural network to play snake, as inputs are a set of whiskers that can detect its own body, an edge or food. Five snakes are initialized at the same time although they are not in the same "world", hence they don't compete for food or can see eachother. The network weigths that outputs a turning angle is then optimized using genetic algorithm. It takes quite a long time to converge and with rendering the graphics in real time it takes way to long time to converge to a "playable snake". Inside the folder there are application flders of various OS'es to try it out.
 
-## Stock Data (Personal Project 2018)
+## Stock Analysis (Personal Project 2018)
 Witten in Python notebooks. I set up this project to implement topics of deep learning as I was learning them, for instance convolutional neural networks or recurrent nerual networks. It is pretty common knowledge that historical stock prices contain little predictive power, so I don't expect to be able to pull it off, but why not try to learn on something that might make me rich on the off-change I discover something :) It is still a work in progress. 
 
 ## Flock (Personal Project 2016)
