@@ -1,5 +1,5 @@
 from pygame.locals import *
-import pygame, time
+import pygame, time, sys
 from Game_Classes import Apple, Snake, Graphics, SCREEN_SIZE,SCALE, ACTIONS, N_TILES
 import numpy as np
 
@@ -31,16 +31,24 @@ if __name__ == "__main__":
         snake.update()
         graphics.render(snake.head_position, snake.body_position, apple.position)
 
+
         # Check wall collision
         if np.any(snake.head_position < 0) or np.any(snake.head_position > N_TILES):
             snake.crash()
+
 
         # Check if snake eats itself
         for bodypart in snake.body_position:
             if np.all(snake.head_position == bodypart):
                 snake.eat_self()
 
+
         # Check if snake eats apple
         if np.all(apple.position == snake.head_position):
             snake.eat_apple()
             apple.relocate()
+
+
+        state = graphics.return_screen()
+        snake.percept_state(state)
+        
