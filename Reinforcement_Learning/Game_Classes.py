@@ -1,6 +1,7 @@
 
 from pygame.locals import *
-import pygame, sys, os, time, random
+from Brain import Brain
+import pygame, sys, os, time, random, cv2
 import numpy as np
 
 
@@ -20,6 +21,14 @@ class Snake:
 
     def __init__(self):
         self.reset()
+        self.brain = Brain()
+
+    def remember(self, state, action, reward):
+        self.brain.add_memory(state,action,reward)
+
+    def percept_state(self, state):
+        q_values = self.brain.predict(state)
+        # Decide best policy and act on it and then store the data
 
     def reset(self):
 
@@ -84,6 +93,11 @@ class Graphics:
         self.snake_body_image = pygame.Surface((SCALE, SCALE))
         self.snake_body_image.fill(SNAKE_BODY_COLOR)
 
+    def return_screen(self, size = (60,60)):
+        image = pygame.surfarray.array3d(self.s)
+        image = cv2.resize(image, dsize=size, interpolation=cv2.INTER_CUBIC)
+
+        return image
 
     def render(self,snake_head,snake_body,apple_pos):
         self.s.fill(BACKGROUND_COLOR)
