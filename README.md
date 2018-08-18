@@ -2,6 +2,9 @@
 A collection of a few personal projects and school assignments to showcase my programming abilities. The subject of all of these project has been to learn either a concept or a language or both, so performance and or results have not been the primary goal. Below follows a brief description of the folders youll find in this repo. 
 
 
+## Reinforcement Learning (Personal Project 2018)
+Written in python. Work in progress. Trying to implement deep q-learning network from scratch for a snake game built min pygames. 
+
 ## Snake AI (Personal Project 2016)
 Written in Processing which is a high-level language built on-top of Java. It tries to teach a neural network to play snake, as inputs are a set of whiskers that can detect its own body, an edge or food. Five snakes are initialized at the same time although they are not in the same "world", hence they don't compete for food or can see eachother. The network weigths that outputs a turning angle is then optimized using genetic algorithm. It takes quite a long time to converge and with rendering the graphics in real time it takes way to long time to converge to a "playable snake". Inside the folder there are application flders of various OS'es to try it out.
 
