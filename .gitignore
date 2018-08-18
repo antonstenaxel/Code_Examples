@@ -35,3 +35,12 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+.ipynb_checkpoints/
+README.md~
+Reinforcement_Learning/.ipynb_checkpoints/
+Reinforcement_Learning/Old FIles/
+Reinforcement_Learning/Testing.ipynb
+Reinforcement_Learning/__pycache__/
+Reinforcement_Learning/test.py
+Store_Sales_Prediction /.ipynb_checkpoints/Sales Prediction-checkpoint.ipynb
