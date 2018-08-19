@@ -1,5 +1,6 @@
 
 import keras
+import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, Conv2D, Dropout, Flatten, BatchNormalization
 from keras.optimizers import Adam
@@ -31,15 +32,32 @@ class Brain():
 
         self.memory = []
 
-    def add_memory(self, state, action, reward, next_state):
-        self.memory.append((screen,action,rewards))
+    def add_memory(self, experience):
+        self.memory.append(experience)
 
 
     def retrieve_memory(self, batch_size):
-        return []
+        x = []
+        y = []
+
+        indices = np.random.randint(low=0,high=len(memory),size=batch_size)
+
+        for index in indices:
+            state, action, reward, next_state = self.memory[index]
+
+            max_next_q = np.max(self.predict(next_state))
+
+            q = reward + GAMMA*max_next_q
+
+            x.append(state)
+            y.append(q)
+
+
+        return x,y
 
     def train(self, batch):
         pass
 
     def predict(self, state):
-        pass
+        pred_state = state.reshape((1,)+np.shape(state)+(1,))
+        return self.model.predict(pred_state)

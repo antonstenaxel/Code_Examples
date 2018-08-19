@@ -8,9 +8,10 @@ class Snake:
     def __init__(self):
         self.reset()
         self.brain = Brain()
+        self.experience_buffer = []
 
     def remember(self, state, action, reward, next_state):
-        self.brain.add_memory(state,action,reward, next_state)
+        self.experience_buffer.append((state,action,reward, next_state))
 
     def percept_state(self, state):
         q_values = self.brain.predict(state)
@@ -20,7 +21,7 @@ class Snake:
 
     def reset(self):
 
-        self.direction = random.choice(ACTIONS)
+        self.direction = random.choice(ACTIONS[1:])
         self.head_position = np.copy(START_POS)
         self.body_position = np.vstack([self.head_position - i*self.direction for i in range(1,5)])
         self.growing = False
@@ -29,6 +30,10 @@ class Snake:
         self.growing = True
 
     def die(self):
+
+        for experience in self.experience_buffer:
+            self.brain.add_memory(experience)
+
         self.reset()
 
     def turn(self, action):

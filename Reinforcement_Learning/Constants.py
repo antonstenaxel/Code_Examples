@@ -15,3 +15,8 @@ APPLE_COLOR = (100, 255, 100)
 #Actions: {"Nothing":0, "Up":1, "Down":2,"Left":3, "Right":4}
 ACTIONS = np.array([[0,0],[0,-1],[0,1],[-1,0],[1,0]],dtype=np.int)
 START_POS = np.array([7,7 ],dtype=np.int)
+LOSS_REWARD = -1
+WIN_REWARD = 1
+SURVIVAL_REWARD = 0
+
+GAMMA = 0.9

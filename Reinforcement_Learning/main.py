@@ -34,26 +34,33 @@ if __name__ == "__main__":
         check_game_events()
 
         action = snake.percept_state(state)
+
         snake.update(action)
 
-        graphics.render(snake.head_position, snake.body_position, apple.position)
-
         new_state = graphics.return_screen()
+
+        reward = SURVIVAL_REWARD
 
         # Check wall collision
         if np.any(snake.head_position < 0) or np.any(snake.head_position > N_TILES):
             snake.die()
+            reward = LOSS_REWARD
 
         # Check if snake eats itself
         for bodypart in snake.body_position:
             if np.all(snake.head_position == bodypart):
                 snake.die()
+                reward = LOSS_REWARD
+
 
         # Check if snake eats apple
         if np.all(apple.position == snake.head_position):
             snake.grow()
             apple.relocate()
+            reward = WIN_REWARD
 
+        snake.remember(state,action,reward,new_state)
 
         state = new_state
+        graphics.render(snake.head_position, snake.body_position, apple.position)
         time.sleep(0.1)
