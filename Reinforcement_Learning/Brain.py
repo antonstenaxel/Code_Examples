@@ -31,7 +31,7 @@ class Brain():
 
         self.memory = []
 
-    def add_memory(self, screen, action, reward):
+    def add_memory(self, state, action, reward, next_state):
         self.memory.append((screen,action,rewards))
 
 
