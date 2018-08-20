@@ -1,5 +1,6 @@
 
 import keras
+from Constants import *
 import numpy as np
 from keras.models import Sequential
 from keras.layers import Dense, Conv2D, Dropout, Flatten, BatchNormalization
@@ -24,7 +25,7 @@ class Brain():
                              activation = 'relu'))
 
         self.model.add(Dropout(rate = 0.3))
-        self.model.add(Dense(units = 4))
+        self.model.add(Dense(units = 5))
 
         self.model.compile(loss='mean_squared_error',\
                            optimizer=Adam(),\
@@ -37,26 +38,36 @@ class Brain():
 
 
     def retrieve_memory(self, batch_size):
-        x = []
-        y = []
+        x = np.zeros((batch_size,60,60,1))
+        y = np.zeros((batch_size,5))
 
-        indices = np.random.randint(low=0,high=len(memory),size=batch_size)
+        indices = np.random.randint(low=0,high=len(self.memory),size=batch_size)
 
-        for index in indices:
-            state, action, reward, next_state = self.memory[index]
+        for sample, index in enumerate(indices):
+            state, action, reward, next_state, final_state = self.memory[index]
 
             max_next_q = np.max(self.predict(next_state))
 
-            q = reward + GAMMA*max_next_q
+            q_action = reward
 
-            x.append(state)
-            y.append(q)
+            if not final_state:
+                q_action += GAMMA*max_next_q
+
+            target = self.predict(state)[0] #Zero error except for action taken
+
+            target[action] = q_action
+
+            x[sample,:,:,0] = state
+            y[sample,:] = target
 
 
         return x,y
 
-    def train(self, batch):
-        pass
+    def learn(self):
+
+        x,y = self.retrieve_memory(BATCH_SIZE)
+        
+        self.model.fit(x,y, epochs = 1)
 
     def predict(self, state):
         pred_state = state.reshape((1,)+np.shape(state)+(1,))

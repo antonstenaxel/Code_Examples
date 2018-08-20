@@ -11,15 +11,6 @@ def check_game_events():
     for e in pygame.event.get():
         if e.type == QUIT:
             sys.exit(0)
-        elif e.type == KEYDOWN:
-            if e.key == K_UP:
-                snake.turn(1)
-            elif e.key == K_DOWN:
-                snake.turn(2)
-            elif e.key == K_LEFT:
-                snake.turn(3)
-            elif e.key == K_RIGHT:
-                snake.turn(4)
 
 if __name__ == "__main__":
 
@@ -28,6 +19,7 @@ if __name__ == "__main__":
     graphics = Graphics()
 
     state = graphics.return_screen()
+    game_over = False
 
     while True:  # Main game loop
 
@@ -43,13 +35,13 @@ if __name__ == "__main__":
 
         # Check wall collision
         if np.any(snake.head_position < 0) or np.any(snake.head_position > N_TILES):
-            snake.die()
+            game_over = True
             reward = LOSS_REWARD
 
         # Check if snake eats itself
         for bodypart in snake.body_position:
             if np.all(snake.head_position == bodypart):
-                snake.die()
+                game_over = True
                 reward = LOSS_REWARD
 
 
@@ -59,8 +51,17 @@ if __name__ == "__main__":
             apple.relocate()
             reward = WIN_REWARD
 
-        snake.remember(state,action,reward,new_state)
+        snake.remember(state,action,reward,new_state, game_over)
+
+        if(game_over):
+            snake.die()
+            game_over = False
+
+
 
         state = new_state
         graphics.render(snake.head_position, snake.body_position, apple.position)
-        time.sleep(0.1)
+
+
+
+        #time.sleep(0.01)

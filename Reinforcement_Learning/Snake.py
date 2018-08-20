@@ -10,13 +10,12 @@ class Snake:
         self.brain = Brain()
         self.experience_buffer = []
 
-    def remember(self, state, action, reward, next_state):
-        self.experience_buffer.append((state,action,reward, next_state))
+    def remember(self, state, action, reward, next_state, final_state):
+        self.experience_buffer.append((state,action,reward, next_state, final_state))
 
     def percept_state(self, state):
         q_values = self.brain.predict(state)
         action = np.argmax(q_values)
-
         return action
 
     def reset(self):
@@ -34,6 +33,7 @@ class Snake:
         for experience in self.experience_buffer:
             self.brain.add_memory(experience)
 
+        self.brain.learn()
         self.reset()
 
     def turn(self, action):
@@ -46,7 +46,7 @@ class Snake:
                 self.direction = direction
 
     def update(self,action):
-        #self.turn(action)
+        self.turn(action)
 
         if self.growing:
             self.body_position = np.append([self.head_position], self.body_position, axis = 0)
