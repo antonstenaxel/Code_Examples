@@ -11,11 +11,12 @@ class Brain():
     def __init__(self):
         self.model = Sequential()
 
+        self.model.add(BatchNormalization(input_shape =(60,60,3)))
         self.model.add(Conv2D(filters = 32,\
                               kernel_size = (3,3),\
-                              activation = 'relu', \
-                              input_shape =(60,60,1)))\
+                              activation = 'relu'))\
 
+        self.model.add(BatchNormalization())
         self.model.add(Conv2D(filters = 32,
                               kernel_size = (3,3),\
                               activation = 'relu'))
@@ -38,7 +39,7 @@ class Brain():
 
 
     def retrieve_memory(self, batch_size):
-        x = np.zeros((batch_size,60,60,1))
+        x = np.zeros((batch_size,60,60,3))
         y = np.zeros((batch_size,5))
 
         indices = np.random.randint(low=0,high=len(self.memory),size=batch_size)
@@ -57,7 +58,7 @@ class Brain():
 
             target[action] = q_action
 
-            x[sample,:,:,0] = state
+            x[sample,:,:,:] = state
             y[sample,:] = target
 
 
@@ -66,9 +67,9 @@ class Brain():
     def learn(self):
 
         x,y = self.retrieve_memory(BATCH_SIZE)
-        
+
         self.model.fit(x,y, epochs = 1)
 
     def predict(self, state):
-        pred_state = state.reshape((1,)+np.shape(state)+(1,))
+        pred_state = state.reshape((1,)+np.shape(state))
         return self.model.predict(pred_state)

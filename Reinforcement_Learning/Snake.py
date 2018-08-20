@@ -3,6 +3,7 @@ import random
 from Brain import Brain
 from Constants import *
 
+# Class that roughly corresponds to an Agent
 class Snake:
 
     def __init__(self):
@@ -10,6 +11,7 @@ class Snake:
         self.brain = Brain()
         self.experience_buffer = []
 
+    # Adds a SARS datapoint to the temporary memory.
     def remember(self, state, action, reward, next_state, final_state):
         self.experience_buffer.append((state,action,reward, next_state, final_state))
 
@@ -33,8 +35,10 @@ class Snake:
         for experience in self.experience_buffer:
             self.brain.add_memory(experience)
 
+        self.experience_buffer = []
+
         self.brain.learn()
-        self.reset()
+        
 
     def turn(self, action):
         if action == 0: #Do nothing -action

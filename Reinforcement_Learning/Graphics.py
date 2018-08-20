@@ -24,7 +24,8 @@ class Graphics:
 
     def return_screen(self, size = (60,60)):
         image = pygame.surfarray.array3d(self.s)
-        image = np.mean(image, axis = 2) # To gray scale
+        #image = np.mean(image, axis = 2) # To gray scale
+        #image /= 255
         image = cv2.resize(image, dsize=size, interpolation=cv2.INTER_CUBIC)
 
         return image

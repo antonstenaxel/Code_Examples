@@ -26,7 +26,7 @@ if __name__ == "__main__":
         check_game_events()
 
         action = snake.percept_state(state)
-
+        
         snake.update(action)
 
         new_state = graphics.return_screen()
@@ -55,6 +55,7 @@ if __name__ == "__main__":
 
         if(game_over):
             snake.die()
+            snake.reset()
             game_over = False
 
 
